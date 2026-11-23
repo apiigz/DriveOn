@@ -1,0 +1,7 @@
+.historial-table td, .historial-table th { padding-left: 16px; padding-right: 16px; }
+.historial__fecha { color: var(--color-text-muted); }
+.historial__detalle { min-width: 280px; color: var(--color-text-muted); }
+.historial__motivo { color: var(--color-text-muted); }
+.detalle__old { color: var(--color-text-muted); }
+.detalle__new { font-weight: 500; color: var(--color-primary); white-space: nowrap; }
+.responsable { display: inline-flex; align-items: center; gap: 6px; color: var(--color-text-muted); }

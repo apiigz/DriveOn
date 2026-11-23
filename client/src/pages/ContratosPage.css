@@ -1,0 +1,36 @@
+.validador {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-info-text);
+  background: var(--color-info-bg);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+.contratos-section { display: flex; flex-direction: column; gap: 12px; }
+.contratos-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+
+.filtro-estado {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  background: var(--color-surface);
+  border-radius: var(--radius-sm);
+}
+
+.filtro-estado select { border: 0; background: transparent; font-weight: 500; color: var(--color-text); }
+
+.contratos-table td, .contratos-table th { padding-left: 16px; padding-right: 16px; }
+.acciones { display: flex; align-items: center; gap: 8px; }
+
+.pager { display: flex; align-items: center; gap: 4px; }
+.pager__label { font-size: 12px; font-weight: 600; color: var(--color-text); white-space: nowrap; }
+.pager .icon-btn { color: var(--color-text-muted); }
+.pager .icon-btn:disabled { opacity: 0.4; cursor: not-allowed; }

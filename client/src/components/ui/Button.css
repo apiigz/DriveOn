@@ -1,0 +1,46 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background-color 0.15s;
+}
+
+.btn--md { height: 36px; padding: 0 16px; font-size: 13px; }
+.btn--sm { height: 30px; padding: 0 12px; font-size: 12px; }
+
+.btn--primary { background: var(--color-primary); color: #fff; }
+.btn--primary:hover:not(:disabled) { background: var(--color-primary-hover); }
+.btn--danger { background: var(--color-danger); color: #fff; }
+.btn--danger:hover:not(:disabled) { background: #a61f1f; }
+.btn--navy { background: var(--color-sidebar-brand); color: #fff; }
+.btn--navy:hover:not(:disabled) { background: #000b24; }
+.btn--secondary { background: var(--color-th-bg); color: var(--color-text); }
+.btn--secondary:hover:not(:disabled) { background: #dde7f8; }
+.btn--ghost { background: transparent; color: var(--color-text); }
+.btn--ghost:hover:not(:disabled) { background: var(--color-th-bg); }
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Botón de solo ícono */
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  color: var(--color-primary);
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius-sm);
+}
+
+.icon-btn:hover { background: var(--color-th-bg); }

@@ -1,0 +1,55 @@
+.tarifas-desc { max-width: 560px; }
+
+.text-primary { color: var(--color-primary); }
+
+.card-title { padding: 16px; }
+.card-title--split { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+
+.flota-tarifada {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  align-self: flex-start;
+  min-width: 272px;
+  padding: 14px 16px;
+}
+
+.flota-tarifada__value { margin-top: 2px; font-size: 22px; font-weight: 600; white-space: nowrap; }
+.flota-tarifada__caption { margin-top: 2px; font-size: 12px; font-weight: 500; color: var(--color-success); }
+
+.flota-tarifada__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: var(--color-primary);
+  background: var(--color-info-bg);
+  border-radius: var(--radius-sm);
+}
+
+.tarifas-table { font-size: 13px; }
+.tarifas-table td, .tarifas-table th { padding-left: 6px; padding-right: 6px; }
+.table.tarifas-table th { white-space: normal; }
+
+.modelo { display: flex; align-items: center; gap: 10px; min-width: 250px; }
+.modelo__icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  color: var(--color-text-muted);
+  background: var(--color-info-bg);
+  border-radius: var(--radius-sm);
+}
+.modelo__name { font-weight: 500; white-space: nowrap; }
+.modelo__desc { white-space: nowrap; margin-top: 2px; font-size: 12px; color: var(--color-text-muted); }
+
+.tarifa { font-weight: 500; }
+.unit { font-size: 12px; color: var(--color-text-muted); }
+.programado { display: block; margin-top: 2px; font-size: 11px; color: var(--color-primary); }
+
+.historial-footer { padding: 12px 16px; border-top: 1px solid var(--color-border); }

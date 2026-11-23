@@ -1,0 +1,39 @@
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+}
+
+.filters__search { flex: 1 1 160px; min-width: 120px; }
+.filters__select { flex: 0 1 190px; min-width: 130px; }
+
+.resumen {
+  display: flex;
+  align-items: center;
+  flex: none;
+  margin-left: auto;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--color-input-bg);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+.resumen span + span { margin-left: 8px; padding-left: 8px; border-left: 1px solid var(--color-border); }
+.resumen__ok { color: var(--color-success-dark); }
+.resumen__info { color: var(--color-primary); }
+.resumen__danger { color: var(--color-danger-text); }
+
+.asignacion { display: inline-flex; align-items: center; gap: 6px; }
+.asignacion--ok { color: var(--color-success); }
+.asignacion--taller { font-style: italic; color: var(--color-text-muted); }
+.asignacion__contrato { font-size: 12px; color: var(--color-text-muted); }
+
+/* Acción en dos líneas como en el diseño, sin desbordar la tabla */
+.link-action.acciones-flota { width: 110px; white-space: normal; text-align: right; display: inline-block; line-height: 1.3; }
+
+.flota-table td, .flota-table th { padding-left: 8px; padding-right: 8px; }
+.table.flota-table th { white-space: normal; }
+.flota-table .asignacion { flex-wrap: wrap; }

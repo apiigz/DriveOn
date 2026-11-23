@@ -1,0 +1,19 @@
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: var(--header-height);
+  padding: 0 var(--space-page);
+  background: var(--color-surface);
+  box-shadow: 0 1px 3px rgba(15, 27, 45, 0.08);
+}
+
+.app-header__search { width: 100%; max-width: 384px; }
+.app-header__user { display: flex; align-items: center; gap: 12px; }
+.app-header__user-text { display: flex; flex-direction: column; align-items: flex-end; line-height: 1.3; }
+.app-header__name { font-size: 14px; font-weight: 600; }
+.app-header__role { font-size: 12px; color: var(--color-text-muted); }

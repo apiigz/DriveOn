@@ -1,0 +1,25 @@
+.kpi {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 16px 14px;
+  min-height: 124px;
+  min-width: 0;
+}
+
+.kpi__head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.kpi__label { font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-text-muted); white-space: nowrap; }
+.kpi__main { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.kpi__value { font-size: 30px; font-weight: 600; line-height: 1.1; }
+.kpi__value--danger { color: var(--color-danger-text); }
+.kpi__caption { margin-top: auto; font-size: 13px; }
+
+.kpi__caption--neutral { color: var(--color-text-muted); }
+.kpi__caption--success { color: var(--color-success); }
+.kpi__caption--info { color: var(--color-primary); }
+.kpi__caption--danger { color: var(--color-danger-text); }
+.kpi__icon { flex: none; width: 18px; height: 18px; }
+.kpi__icon--neutral { color: var(--color-text-muted); }
+.kpi__icon--success { color: var(--color-success-dark); }
+.kpi__icon--info { color: var(--color-primary); }
+.kpi__icon--danger { color: var(--color-danger); }

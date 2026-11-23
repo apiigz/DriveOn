@@ -1,0 +1,24 @@
+.cobro-form { display: flex; flex-direction: column; gap: 14px; }
+
+.cobro-resumen {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0;
+  padding: 10px 12px;
+  background: var(--color-th-bg);
+  border-radius: var(--radius-sm);
+}
+
+.cobro-resumen dt { font-size: 11px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; color: var(--color-text-muted); }
+.cobro-resumen dd { margin: 2px 0 0; font-size: 14px; font-weight: 600; }
+.cobro-resumen__right { text-align: right; }
+.cobro-resumen__contrato { color: var(--color-primary); }
+
+.cobro-aviso {
+  padding: 8px 12px;
+  font-size: 13px;
+  color: var(--color-info-text);
+  background: var(--color-info-bg);
+  border-radius: var(--radius-sm);
+}

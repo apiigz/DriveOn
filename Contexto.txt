@@ -1,0 +1,745 @@
+Caso C · DriveOn: análisis completo
+Para DriveOn conviene Scrum con sprints de 2 semanas más un control extra sobre tarifas y contratos, y un MVP para marzo que resuelva tres cosas: saber qué autos están libres, contratar con la tarifa correcta y detectar la mora a tiempo. Lo marcado como supuesto o propuesta hay que validarlo con tu grupo y con el cliente.
+A.1 Comprensión del caso
+DriveOn pierde plata y control porque la información clave de su negocio de alquiler vive en WhatsApp, planillas, Word y en la memoria de tres encargados.
+El problema con palabras propias
+DriveOn compra autos y los alquila por semana a conductores de apps (Uber, Cabify, DiDi) y repartidores. Tiene 320 vehículos de 9 modelos, 3 sucursales y unos 280 contratos activos. Como no hay un sistema que unifique la información, nadie sabe con certeza qué autos están libres, las tarifas se cobran distinto de lo firmado, la mora se detecta tarde y las multas se pagan sin poder probar quién manejaba. El ejemplo más claro: cuando el encargado de la sucursal Sur se tomó dos semanas de vacaciones, la sucursal facturó un 22% menos porque nadie sabía qué autos estaban libres.
+Actores y partes interesadas
+Actor
+Rol frente al proyecto
+Interés
+Riesgo que aporta
+Gerente Comercial
+Decide y firma
+Ocupación de flota y mora; quiere un tablero y poco más
+Poco tiempo para reuniones
+Encargados de flota (3)
+Usan y pueden bloquear
+Seguir trabajando como hoy
+Son el conocimiento crítico y no documentan
+Asesores comerciales (7)
+Usan
+Cotizar rápido delante del cliente
+Si el sistema es lento, vuelven al WhatsApp
+Administración y Cobranzas (4)
+Usan
+Conciliar pagos, mora y depósitos
+Dependen de la integración con el ERP
+Conductores (280 activos, unos 640 históricos)
+Sufren el problema
+Saber cuánto deben, cuándo vence el contrato y cuándo toca service
+Android de gama media o baja, datos limitados
+Taller propio y 2 talleres externos
+Usan, con dependencia externa
+Recibir órdenes claras
+Hoy no reportan de forma estructurada
+Proveedor o mantenedor del ERP (supuesto)
+Puede bloquear
+Que no se rompa su sistema
+Integración poco documentada
+
+Resumen: decide el Gerente Comercial, usan el sistema asesores, encargados y administración, sufren el problema los conductores y la propia empresa (mora, juicios, multas) y pueden bloquear el proyecto los encargados de flota (conocimiento tácito) y quien mantiene el ERP.
+Procesos actuales y cuellos de botella
+Proceso
+Cómo se hace hoy
+Cuello de botella o pérdida de información
+Disponibilidad
+El asesor pregunta por WhatsApp al encargado
+Depende de una persona; la estimación varía entre sucursales
+Contrato
+Documento Word completado a mano e impreso por duplicado
+Errores; tarifa firmada distinta de la cobrada en 1 de cada 8 casos
+Depósito en garantía
+Planilla aparte
+No siempre coincide con el contrato; devoluciones mal hechas o inexistentes
+Cobro semanal
+Se revisa el extracto bancario y se tilda una planilla
+Mora del 14% detectada cuando ya pasaron varias semanas
+Multas
+Llegan semanas después a nombre de DriveOn; se revisan contratos impresos
+No se puede probar quién manejaba; la empresa termina pagando
+Mantenimiento
+Se hace cuando el conductor avisa un ruido o el service ya está vencido
+Autos que se rompen en la calle; el conductor deja de trabajar y de pagar
+Facturación
+ERP contable viejo que solo emite facturas
+Los datos de contratos y cobros no llegan solos
+
+Objetivos del negocio, medibles
+Los valores de partida salen del caso. Las metas son propuestas y hay que validarlas con el cliente.
+Objetivo
+Hoy
+Meta propuesta
+Disponibilidad confiable
+Estimación distinta en cada sucursal
+100% de los 320 autos con un estado único y diferencia menor al 2% contra un recuento físico mensual
+Tarifa correcta
+1 de cada 8 contratos con tarifa inconsistente (12,5%)
+0%: la tarifa cobrada es siempre la generada por el sistema
+Mora
+14%, detectada tras varias semanas
+8% o menos a los 6 meses de operación; detección en 24 horas
+Multas
+Se pagan sin poder probar quién manejaba
+100% asignadas automáticamente al conductor en menos de 1 día hábil
+Mantenimiento
+Reactivo
+90% o más de los services preventivos hechos en término
+Dependencia de personas
+Sucursal Sur facturó 22% menos con un encargado ausente
+Ausencia de un encargado sin caída de facturación
+
+Supuestos del grupo
+El caso no aclara estos puntos, así que los dejamos escritos. Un supuesto no declarado es un conflicto futuro.
+El proyecto arranca en noviembre y hay unas 16 semanas hasta el 1 de marzo (el caso solo dice "antes de marzo").
+"Algo andando para marzo" significa operar de verdad en al menos una sucursal como piloto, no las tres a la vez.
+El ERP ofrece alguna forma de intercambio de datos (exportación de archivos o acceso a su base), aunque no tenga API documentada. Lo confirmamos con un spike en las primeras 2 semanas.
+DriveOn tiene un asesor legal que valida el modelo de contrato. La firma sigue siendo presencial; la firma digital queda fuera de esta etapa.
+El sistema registra y concilia pagos, pero no cobra online. Los cobros siguen entrando por los medios actuales.
+El Gerente y los 3 encargados participan de talleres de relevamiento de tarifas (2 horas cada uno al inicio). Si discrepan, decide el Gerente.
+Cada contrato registra fecha y hora de entrega y de devolución del vehículo (necesario para asignar multas).
+Los conductores usan el sistema desde el navegador del celular (web instalable, sin app nativa).
+La planilla maestra de contratos se migra al sistema; la calidad de esos datos es desconocida y se limpia antes.
+Los talleres externos reciben órdenes por una vista web simple o por email en esta etapa.
+El alquiler es semanal con kilometraje incluido; la fórmula exacta de kilometraje excedente y penalidades se releva en los talleres.
+El cliente designa un referente de negocio por sucursal para consultas del día a día.
+A.2 Metodología
+Elegimos Scrum con sprints de 2 semanas y una regla extra: nada que toque dinero o contratos llega a producción sin reglas aprobadas por escrito y pruebas con casos reales.
+Cuadro comparativo aplicado a este caso
+Metodología
+A favor en DriveOn
+En contra en DriveOn
+Veredicto
+Waterfall
+Las reglas de tarifas y contratos piden precisión y documentación; hitos claros
+El alcance no está cerrado y las reglas no están consensuadas, así que un cambio tarde sale caro; el cliente ve algo recién al final y marzo no admite errores descubiertos tarde
+Descartada
+Scrum puro
+Entregas cada 2 semanas, feedback temprano, tolera alcance abierto
+No alcanza para el motor de tarifas y contratos, donde un error tiene consecuencia legal; el Gerente y los encargados tienen poco tiempo; con fecha fija hay riesgo de recortar calidad
+Insuficiente solo
+Kanban
+Flujo continuo, poco trámite, ideal para soporte
+No fija fechas ni hitos, y la fecha de marzo exige compromiso de entrega; no ayuda a descubrir requerimientos
+Solo para la etapa de soporte posterior
+Híbrido: Scrum + control de reglas críticas
+Entregas rápidas para lo difuso y rigor para tarifas, contratos y depósitos
+Exige disciplina para firmar reglas y probar antes de liberar
+Elegida
+
+Por qué el híbrido
+Cada tensión del caso se resuelve con una decisión concreta:
+Tensión del caso
+Cómo la resolvemos
+Los 3 encargados explican las tarifas distinto
+Talleres de relevamiento y una tabla de reglas con ejemplos numéricos; el Gerente decide y firma un acta. Solo se programa lo firmado
+Fecha de marzo fija con alcance abierto
+Fecha fija y alcance variable: backlog priorizado con MoSCoW y un MVP definido para marzo
+Un error de tarifa o depósito tiene consecuencias legales
+Carril de reglas críticas: definición de terminado reforzada, pruebas con contratos reales y revisión cruzada antes de liberar
+Cliente quiere autonomía sin un sistema genérico y caro
+Tarifas parametrizadas con campos acotados (modelo, plazo, kilometraje, depósito), no un motor universal
+ERP viejo es una incógnita
+Spike de 4 horas a 2 días en las primeras 2 semanas, con plan B de exportación de archivos
+El conocimiento está en la cabeza de 3 personas
+Talleres, observación en sucursal y validación con casos reales; cada regla queda escrita y firmada
+
+Quién decide en cada parte
+Producto y prioridades: el Gerente Comercial actúa como Product Owner. Delega el día a día en un referente de negocio por sucursal (supuesto 12).
+Reglas de tarifas, depósitos y penalidades: decide solo el Gerente. Los encargados opinan, pero la regla vigente es la que él firma.
+Decisiones técnicas: las toma el equipo de desarrollo y las informa en la demo.
+Sincronización de entregas: cada sprint termina con una demo en un entorno de pruebas. Un release que toca tarifas o contratos pasa además por una revisión de aceptación firmada.
+Ceremonias, artefactos y cadencia
+Ceremonia
+Frecuencia
+Participantes
+Qué se produce
+Taller de reglas de negocio
+Semanal en los sprints 0 a 2, después según necesidad
+Gerente, 3 encargados, analista
+Tabla de reglas validada y acta firmada
+Planificación de sprint
+Cada 2 semanas
+Equipo y Product Owner
+Sprint backlog con criterios de aceptación
+Daily
+Diaria, 15 minutos
+Equipo
+Bloqueos detectados
+Demo del sprint
+Cada 2 semanas
+Gerente, encargados, equipo
+Demo en pruebas con datos reales y feedback registrado
+Retrospectiva
+Cada 2 semanas
+Equipo
+Acciones de mejora
+Revisión de aceptación (gate)
+Antes de cada release que toque tarifas, contratos o depósitos
+Product Owner y equipo
+Acta de aceptación firmada
+
+Artefactos: product backlog y sprint backlog en el tablero, tabla de reglas de negocio versionada, registro de riesgos, definición de terminado y actas de aceptación.
+Cadencia propuesta (16 semanas, 8 sprints):
+Sprint 0 (semanas 1 y 2): relevamiento de tarifas, spike del ERP, prototipo y alcance.
+Sprints 1 a 3: flota y disponibilidad, motor de tarifas y cotización, contratos.
+Sprints 4 y 5: depósito, cuenta corriente, mora y exportación al ERP.
+Sprint 6: vista móvil del conductor y tablero comercial.
+Sprint 7: migración de datos, pruebas finales, capacitación y piloto en una sucursal.
+Después de marzo: Kanban para soporte y release 2.
+La validación con el cliente ocurre en cada demo, y las reglas críticas se validan además con el acta de aceptación.
+A.3 Requerimientos
+Hay 22 requerimientos funcionales; 18 son imprescindibles para marzo, y el requisito no funcional más crítico es que la disponibilidad que muestra el sistema sea siempre verdad.
+Requerimientos funcionales
+Criterio de prioridad (MoSCoW): Must es lo necesario para alquilar y cobrar con confianza en marzo; Should entra en un segundo release; Could queda para después.
+ID
+Requerimiento (verificable)
+Prioridad
+Problema que resuelve
+RF-01
+El sistema mantiene un catálogo de vehículos con modelo, patente, kilometraje, fotos, documentación y un estado único: disponible, alquilado, en taller o baja
+Must
+Nadie sabe qué autos están libres
+RF-02
+Cada cambio de estado de un vehículo registra fecha, hora y usuario
+Must
+Cero trazabilidad
+RF-03
+Se ve en tiempo real el listado de vehículos disponibles, filtrable por sucursal y modelo
+Must
+El asesor pregunta por WhatsApp
+RF-04
+Un usuario autorizado gestiona tarifas por modelo, plazo, kilometraje incluido y depósito, con fecha de vigencia, sin intervención de desarrollo
+Must
+Tarifas que cambian seguido
+RF-05
+Todo cambio de tarifa queda versionado (quién, cuándo, valor anterior y nuevo) y no altera contratos ya firmados
+Must
+Tarifa firmada distinta de la cobrada
+RF-06
+Se da de alta y se consulta cada conductor con sus datos y documentación
+Must
+Datos dispersos en planillas
+RF-07
+El asesor cotiza eligiendo modelo, plazo y sucursal, y el sistema calcula tarifa semanal, depósito y kilometraje incluido
+Must
+Cotizar lento y a mano
+RF-08
+El sistema genera el contrato en PDF desde la cotización, con numeración única y con depósito, kilometraje y penalidades
+Must
+Contratos en Word a mano
+RF-09
+La tarifa y el depósito del contrato no se editan a mano; una excepción exige autorización registrada del Gerente
+Must
+1 de cada 8 contratos inconsistente
+RF-10
+Se registra el depósito en garantía vinculado al contrato (monto, fecha, medio y estado: retenido, devuelto o aplicado)
+Must
+Depósitos mal devueltos
+RF-11
+Se registra la entrega y la devolución del vehículo con fecha, hora, kilometraje y estado
+Must
+No se sabe quién tenía el auto
+RF-12
+Se registran los cobros semanales y se calcula el saldo del conductor (cuenta corriente)
+Must
+Cobros tildados en planilla
+RF-13
+El sistema marca la mora desde el día siguiente al vencimiento y alerta a Cobranzas
+Must
+Mora del 14% detectada tarde
+RF-14
+El sistema exporta a un archivo, o envía al ERP, los datos de facturación de contratos y cobros en el formato que el ERP acepta
+Must
+ERP que solo emite facturas
+RF-15
+El conductor ve desde el celular su deuda, el vencimiento del contrato y un contacto (próximo service y multas se suman en el release 2)
+Must
+Conductor que no sabe cuánto debe
+RF-16
+El tablero comercial muestra autos por estado, ocupación, mora y facturación
+Must
+El Gerente no ve la flota
+RF-17
+El acceso es con usuario y contraseña, con roles: Gerente, Encargado, Asesor, Cobranzas, Conductor y Taller
+Must
+Datos sensibles
+RF-18
+Al cerrar un contrato, el sistema liquida el depósito: depósito menos deudas y penalidades
+Must
+Depósitos mal devueltos
+RF-19
+Se renuevan y se rescinden contratos con cálculo de penalidades
+Should
+Contratos gestionados a mano
+RF-20
+Se carga la multa y se asigna automáticamente al conductor con contrato vigente en esa fecha y hora
+Should
+Multas que paga la empresa
+RF-21
+Se programa el mantenimiento preventivo por kilometraje y se generan órdenes de trabajo a taller propio y externos
+Should
+Mantenimiento reactivo
+RF-22
+Se gestiona la opción a compra, acreditando parte de lo pagado al valor del vehículo
+Could
+Plan con lógica financiera compleja
+
+Requerimientos no funcionales
+El crítico enunciado de forma indirecta es RNF-01: está en la frase del cliente "si el sistema me dice que un auto está libre y no lo está, prefiero seguir con el WhatsApp".
+ID
+Categoría
+Requerimiento medible
+De dónde sale
+RNF-01
+Confiabilidad y consistencia
+Un vehículo nunca figura libre si está alquilado; dos asesores no pueden contratar el mismo auto a la vez
+Frase del Gerente sobre el WhatsApp
+RNF-02
+Exactitud de cálculo
+Tarifas, depósitos y penalidades coinciden 100% con la tabla de reglas aprobada, verificado con pruebas de contratos reales antes de cada release
+Consecuencia legal de un error
+RNF-03
+Configurabilidad
+El Gerente cambia una tarifa en menos de 5 minutos, sin soporte técnico y cualquier día de la semana
+"No quiero depender de ustedes"
+RNF-04
+Disponibilidad
+99% mensual como mínimo
+Operación diaria de 3 sucursales
+RNF-05
+Rendimiento
+Las pantallas principales cargan en menos de 3 segundos con 4G y la cotización calcula en menos de 2
+Asesores cotizando delante del cliente
+RNF-06
+Usabilidad móvil
+La vista del conductor funciona en Android de gama media o baja, sin instalar app pesada y con bajo consumo de datos
+Restricción del caso
+RNF-07
+Seguridad
+Roles y permisos por perfil; el conductor solo ve sus datos; conexión HTTPS; contraseñas guardadas con hash
+Datos personales y financieros
+RNF-08
+Auditoría
+Toda modificación de contratos, tarifas, depósitos y cobros queda registrada (quién, cuándo, antes y después) y no se borra
+"¿Dónde estaba el control?"
+RNF-09
+Cumplimiento legal
+Contratos con cláusulas validadas por el asesor legal; datos personales tratados según la Ley 25.326
+Contratos con valor legal
+RNF-10
+Integración
+La integración no modifica el ERP, tolera fallos con reintentos y registra cada conciliación
+ERP obligatorio
+RNF-11
+Mantenibilidad
+Tecnología mainstream y documentación suficiente para que otro equipo mantenga el sistema
+Quién mantiene después
+RNF-12
+Escalabilidad moderada
+Soporta 320 vehículos, unos 640 conductores y 3 sucursales, y el doble sin rediseño
+Crecimiento esperado
+RNF-13
+Respaldo
+Copia de seguridad diaria; pérdida máxima aceptada de 24 horas y recuperación en menos de 4 horas
+Continuidad del negocio
+
+Reglas de negocio
+Son las condiciones del negocio que el sistema debe respetar, distintas de los requerimientos. Las marcadas con (a confirmar) salen de nuestros supuestos y se validan en los talleres.
+RN-01: un vehículo tiene un solo estado en cada momento: disponible, alquilado, en taller o baja.
+RN-02: un vehículo solo puede estar en un contrato vigente a la vez.
+RN-03: solo los vehículos disponibles se pueden cotizar y contratar.
+RN-04: la tarifa semanal depende del modelo, el plazo y el kilometraje incluido; cada modelo tiene su propio depósito.
+RN-05: la tarifa de un contrato es la vigente en la fecha de firma y queda congelada mientras dure (a confirmar).
+RN-06: el depósito se cobra antes de la entrega y se devuelve al cerrar el contrato, menos deudas y penalidades (a confirmar).
+RN-07: el kilometraje excedente se cobra con un valor por kilómetro definido por modelo (a confirmar).
+RN-08: un contrato con un pago vencido pasa a mora desde el día siguiente; el umbral para bloquear o rescindir se define en los talleres (a confirmar).
+RN-09: una multa corresponde al conductor cuyo contrato estaba vigente, entre entrega y devolución, en la fecha y hora de la infracción.
+RN-10: un vehículo con el service vencido por kilometraje no se asigna a un contrato nuevo hasta revisarlo (a confirmar).
+RN-11: en la opción a compra, un porcentaje de cada pago se acredita al valor del auto (porcentaje a definir).
+RN-12: toda excepción a una tarifa necesita autorización del Gerente y queda registrada.
+Priorización y alcance propuesto para marzo
+Prioricé por tres criterios: impacto en facturación en temporada alta, riesgo legal y dependencias entre módulos.
+Entra en marzo (Must): RF-01 a RF-18. Resuelve los tres dolores centrales: saber qué está libre, contratar con la tarifa correcta y cobrar con detección temprana de mora.
+Release 2 (Should): renovación y rescisión, infracciones y mantenimiento preventivo.
+Después (Could): opción a compra. Su lógica financiera es compleja, y conviene asegurar primero que el alquiler simple sea exacto.
+Fuera de esta etapa (Won't): app nativa, firma digital de contratos, pagos online integrados y reemplazo del ERP.
+Casos de uso
+Actor
+Casos de uso principales
+Asesor comercial
+Consultar disponibilidad, cotizar, generar contrato, registrar entrega del vehículo
+Encargado de flota
+Gestionar el estado de la flota, registrar entregas y devoluciones, cerrar contrato
+Cobranzas
+Registrar cobros, ver mora, liquidar depósito, exportar facturación al ERP
+Gerente Comercial
+Configurar tarifas, autorizar excepciones, ver el tablero comercial
+Conductor
+Ver deuda, vencimiento del contrato y contacto
+Taller (release 2)
+Recibir y cerrar órdenes de trabajo
+
+Flujo principal del negocio (mapa de procesos futuro):
+El asesor consulta los vehículos disponibles de su sucursal.
+Cotiza con la tarifa vigente, y el sistema calcula tarifa, depósito y kilometraje incluido.
+Genera el contrato en PDF y se firma.
+Cobranzas registra el depósito; el encargado registra la entrega y el vehículo pasa a alquilado.
+Cada semana se registra el cobro; si hay atraso, el sistema marca la mora y alerta a Cobranzas.
+Los datos de facturación se exportan al ERP.
+Al finalizar, el encargado registra la devolución y el sistema liquida el depósito.
+Modelo conceptual de datos
+
+modelo conceptual · 10 entidades
+Cada sucursal tiene muchos vehículos, cada modelo tiene muchas tarifas y muchos vehículos, y cada contrato une un conductor, un vehículo y una tarifa, y reúne cobros, un depósito, movimientos de entrega y devolución, y multas.
+A.4 Propuesta tecnológica
+Proponemos un stack de JavaScript de punta a punta (React, Node con Express y PostgreSQL), porque el equipo lo domina, es barato de alojar y lo puede mantener casi cualquier desarrollador.
+Stack propuesto
+Capa
+Elección
+Para qué
+Frontend
+React con Vite, diseño responsive, instalable como web app (PWA)
+Un solo código para asesores, encargados, gerencia y la vista móvil del conductor
+Backend
+Node.js con Express (módulos ES), API REST
+Lógica de tarifas, contratos, cobros y mora
+Base de datos
+PostgreSQL
+Datos muy relacionales y transacciones; evita doble asignación con restricciones
+Autenticación
+Sesiones o JWT con roles, contraseñas con hash
+Perfiles Gerente, Encargado, Asesor, Cobranzas, Conductor y Taller
+Infraestructura
+Hosting en la nube con base de datos administrada, HTTPS, copia diaria, entornos de pruebas y producción
+Despliegue simple y respaldo
+Código y despliegue
+GitHub con integración continua
+Revisión de código y pruebas automáticas de tarifas
+Servicios de terceros
+Generación de PDF (librería), correo transaccional, almacenamiento de archivos (fotos y documentos)
+Contratos, avisos de mora y documentación
+Integración
+Adaptador propio para el ERP (exportación de archivos o conexión directa, según el spike)
+Facturación sin reemplazar el ERP
+
+Fundamentación por criterio
+Criterio
+Decisión
+Por qué
+Costo
+Hosting administrado de bajo costo
+DriveOn no tiene área de sistemas conocida (supuesto); evita servidores propios
+Curva de aprendizaje
+Un solo lenguaje en frontend y backend
+El equipo ya trabaja con JavaScript, lo que acorta el tiempo
+Tiempo de desarrollo
+Monolito modular, no microservicios
+16 semanas no alcanzan para sostener varios servicios
+Mantenimiento posterior
+Tecnología muy difundida y documentada
+Hay muchos desarrolladores que pueden tomar el sistema
+Dispositivos de los conductores
+PWA liviana en vez de app nativa
+Android de gama media o baja; no van a instalar una app pesada
+Integración con ERP
+Adaptador aislado
+Si el ERP cambia o falla, se cambia solo el adaptador
+Dinero y exactitud
+PostgreSQL con tipos numéricos exactos
+Evita errores de redondeo en tarifas y depósitos
+
+Alternativas evaluadas y descartadas
+Alternativa
+Motivo del descarte
+Backend en C# (.NET)
+Es válida técnicamente, pero el hosting suele costar más y usar un solo lenguaje en todo el sistema reduce tiempos
+Low-code (Power Apps, Airtable)
+Rápido al inicio, pero no aguanta bien reglas de tarifas y contratos con auditoría, y deja a DriveOn atado a licencias
+Comprar un ERP o CRM de flota enlatado
+El cliente quiere configurar sus propias reglas y ya sufre dependencia de un ERP cerrado
+App nativa Android
+Contradice la restricción de no instalar apps pesadas; la web instalable alcanza
+Base NoSQL (por ejemplo MongoDB)
+Los datos son muy relacionales y transaccionales (contratos, pagos, estados); necesitamos integridad
+Microservicios
+Complejidad y costo innecesarios para este tamaño
+
+Riesgos técnicos que introduce la decisión
+Riesgo técnico
+Cómo lo manejamos
+Monolito que se vuelve difícil de ordenar
+Módulos separados por dominio (flota, tarifas, contratos, cobranzas)
+Dependencia del proveedor de hosting
+Copias diarias y código portable a otro proveedor
+Límites de la web instalable en celulares muy viejos
+Probar en un Android de gama baja desde el prototipo
+Errores de cálculo de dinero
+Tipos numéricos exactos y pruebas con contratos reales
+Integración con ERP que no cumple lo esperado
+Spike al inicio y plan B por archivo
+Acceso indebido a datos personales
+Roles, HTTPS, hash de contraseñas y registro de accesos
+
+Arquitectura de alto nivel
+
+arquitectura de alto nivel · 3 tipos de usuarios, 1 servidor, 3 servicios externos
+Los tres tipos de usuarios entran por internet a una sola aplicación que guarda todo en PostgreSQL, envía avisos y archivos por servicios externos y habla con el ERP mediante un adaptador aislado.
+A.5 Riesgos
+Identificamos 13 riesgos; 7 tienen exposición alta (15 o más) y los dos mayores son las reglas de tarifas sin consenso y no llegar a marzo.
+Escala que usamos
+Probabilidad e impacto van de 1 a 5, y la exposición es probabilidad por impacto (máximo 25). Usamos cinco niveles porque permiten distinguir riesgos sin complicar el cálculo.
+Nivel
+Probabilidad
+Impacto
+1
+Muy baja (menos de 10%)
+Insignificante
+2
+Baja (10 a 25%)
+Tolerable
+3
+Moderada (25 a 50%)
+Importante
+4
+Alta (50 a 75%)
+Grave
+5
+Muy alta (más de 75%)
+Catastrófico
+
+Exposición: alta de 15 a 25, media de 8 a 14, baja hasta 7.
+Registro de riesgos
+Los responsables son roles del equipo; en el contrato de alcance se asigna cada rol a una persona.
+ID
+Riesgo
+Tipo
+Prob.
+Imp.
+Exp.
+Estrategia
+Acción concreta
+Responsable
+R1
+Los encargados no se ponen de acuerdo en las reglas de tarifas
+Negocio y requerimientos
+4
+5
+20
+Mitigar
+Talleres con ejemplos reales; tabla de reglas firmada por el Gerente
+Analista
+R2
+No se llega a marzo con lo comprometido
+Gestión
+4
+5
+20
+Mitigar
+Fecha fija y alcance variable; MVP priorizado; piloto en una sucursal
+Líder
+R3
+El ERP no se puede integrar como se pensaba
+Técnico y proveedor
+4
+4
+16
+Mitigar
+Spike en las semanas 1 y 2; plan B por archivo
+Dev backend
+R4
+Los encargados no colaboran o siguen con el WhatsApp
+Personas
+4
+4
+16
+Mitigar
+Involucrarlos como referentes; sesiones cortas; el Gerente patrocina
+Líder
+R5
+Un error de cálculo en tarifa o depósito con consecuencia legal
+Técnico y legal
+3
+5
+15
+Mitigar
+Pruebas con contratos reales; revisión cruzada; definición de terminado reforzada
+QA
+R6
+Un auto se asigna dos veces o muestra estado incorrecto
+Técnico
+3
+5
+15
+Mitigar
+Transacciones y restricciones en la base; pruebas de concurrencia
+Dev backend
+R7
+Contratos sin validez legal o con cláusulas omitidas
+Normativo
+3
+5
+15
+Transferir
+El asesor legal de DriveOn valida el modelo antes de programarlo
+Analista
+R8
+Cambios de alcance durante el proyecto
+Gestión
+4
+3
+12
+Mitigar
+Contrato de alcance y procedimiento de cambios
+Líder
+R9
+Datos migrados incompletos o inconsistentes
+Técnico y datos
+4
+3
+12
+Mitigar
+Limpiar planillas; script de migración con reporte de errores; validar con encargados
+Dev backend
+R10
+Acceso indebido a datos personales de conductores
+Normativo y seguridad
+2
+5
+10
+Mitigar
+Roles, HTTPS, hash de contraseñas, registro de accesos; cumplir Ley 25.326
+Dev backend
+R11
+Baja adopción de los conductores por celulares de gama baja
+Negocio y usuarios
+3
+3
+9
+Mitigar
+Web liviana; pruebas en un Android de gama baja
+Dev frontend
+R12
+Pérdida o sobrecarga de un integrante del equipo
+Personas
+2
+4
+8
+Mitigar
+Documentación, revisión de código cruzada y conocimiento compartido
+Líder
+R13
+Caída del proveedor de hosting
+Proveedor
+2
+3
+6
+Transferir
+Proveedor con garantía de servicio; copias diarias
+Dev backend
+
+Matriz de riesgos
+Cada celda muestra qué riesgos caen en esa combinación de probabilidad (columnas) e impacto (filas).
+Impacto \ Probabilidad
+1
+2
+3
+4
+5
+5 Catastrófico
+
+
+R10
+R5, R6, R7
+R1, R2
+
+
+4 Grave
+
+
+R12
+
+
+R3, R4
+
+
+3 Importante
+
+
+R13
+R11
+R8, R9
+
+
+2 Tolerable
+
+
+
+
+
+
+
+
+
+
+1 Insignificante
+
+
+
+
+
+
+
+
+
+
+
+Planes de contingencia para exposición alta
+Riesgo
+Disparador
+Qué hacemos si ocurre
+R1
+Al cierre del sprint 2 hay una regla de tarifa sin firmar
+El Gerente decide por escrito; se implementa solo el alquiler semanal estándar y las excepciones se posponen
+R2
+Dos sprints seguidos con menos del 70% de lo planificado, o un Must en riesgo a 6 semanas de marzo
+Se recortan Should y Could; se limita el piloto a una sucursal; se reasignan tareas
+R3
+Al final del spike no hay forma automática de exportar a facturación
+Exportación diaria a archivo y carga manual en el ERP por Administración; integración completa en el release 2
+R4
+Un encargado falta a dos reuniones seguidas o sigue usando solo WhatsApp
+El Gerente interviene; capacitación uno a uno; se muestra el beneficio en la demo
+R5
+Un caso de prueba real da distinto en el sistema y en la planilla
+Se congela el release, se corrige y se revisan los contratos afectados
+R6
+Se detecta un auto asignado dos veces o una diferencia contra el recuento físico
+Bloqueo manual del vehículo, revisión del historial de estados y corrección con análisis posterior
+R7
+El asesor legal no valida el modelo antes del sprint 4
+Se usa el contrato vigente de DriveOn como base y se genera el PDF sin cambiar cláusulas
+
+Respuestas base para la defensa
+Cada respuesta se apoya en algo concreto del trabajo, porque el cliente pide evidencia y no solo palabras. Después tenés que decirlas con tus palabras y sin terminología sin explicar.
+Pregunta del cliente
+Respuesta base
+Evidencia a mostrar
+"Mis tres encargados me explican las tarifas distinto. ¿Cómo saben cuál es la regla correcta?"
+No la decidimos nosotros: la decide quien tiene la autoridad, que es usted. Hacemos un taller con los tres, armamos una tabla de reglas con ejemplos de contratos reales, mostramos dónde difieren y usted firma cuál rige. El sistema solo implementa reglas firmadas
+Tabla de reglas (RN), taller del sprint 0 en el tablero, riesgo R1
+"¿Qué pasa si en febrero descubren que el ERP no se puede integrar?"
+No lo dejamos para febrero: en las primeras 2 semanas hacemos una investigación acotada. Si no se puede integrar, la facturación sale por un archivo que Administración carga, y la operación no se frena
+Spike en el tablero, riesgo R3 y su plan de contingencia
+"Quiero cambiar una tarifa un domingo a la noche. ¿Puedo o tengo que llamarlos?"
+Puede. Edita la tarifa en pantalla, queda registrada con fecha y valor anterior, y rige desde la fecha que elija sin tocar contratos ya firmados. Si necesita una regla nueva de otra naturaleza, eso sí requiere desarrollo
+RF-04, RF-05 y RNF-03
+"Si el sistema calcula mal un depósito y me hacen un juicio, ¿dónde estaba el control?"
+En cuatro lugares: reglas firmadas, pruebas con contratos reales antes de cada release, tarifa y depósito bloqueados contra edición manual y registro de todo cambio. Si algo falla, se reconstruye quién hizo qué y cuándo
+RNF-02, RF-09, RNF-08, definición de terminado
+"¿Qué me entregan en marzo y qué queda para después? Justifíquenme el recorte."
+En marzo, una sucursal operando con flota y disponibilidad confiables, contratos con la tarifa correcta, depósitos, cobros y mora, y la vista del conductor. Queda para después multas, mantenimiento, renovaciones y opción a compra: no frenan la facturación de temporada alta y conviene que el alquiler simple sea exacto antes de sumar lógica financiera
+Alcance Must (RF-01 a RF-18) y matriz MoSCoW
+
+Esto es el análisis del caso "DriveOn", la idea es hacer la demo es decir hasta el requerimiento 18. Luego lo tenemos que mostrar al profe que va a actuar como cliente. 
+

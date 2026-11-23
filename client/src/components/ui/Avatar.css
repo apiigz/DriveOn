@@ -1,0 +1,22 @@
+.avatar {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+}
+
+.avatar--info { background: var(--color-info-bg); color: var(--color-primary); }
+.avatar--danger { background: var(--color-danger-bg); color: var(--color-danger-text); }
+.avatar--user {
+  width: 36px;
+  height: 36px;
+  background: var(--color-avatar);
+  color: var(--color-text);
+  border: 2px solid #f5d77a;
+  border-radius: 50%;
+}

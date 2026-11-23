@@ -1,0 +1,16 @@
+{
+  "name": "driveon-server",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "API REST de la demo DriveOn (Express + JSON)",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "reset": "node src/seed/seed.js",
+    "test": "node --test \"test/**/*.test.js\""
+  },
+  "dependencies": {
+    "express": "^5.3.0"
+  }
+}

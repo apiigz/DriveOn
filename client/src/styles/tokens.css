@@ -1,0 +1,36 @@
+:root {
+  --color-sidebar: #1a2b4c;
+  --color-sidebar-brand: #0f1d3a;
+  --color-primary: #0b57d0;
+  --color-primary-hover: #0947a8;
+  --color-bg: #f4f6fa;
+  --color-surface: #ffffff;
+  --color-text: #0f1b2d;
+  --color-text-muted: #5b6576;
+  --color-th-bg: #edf2fb;
+  --color-border: #e3e8f0;
+  --color-danger: #c62828;
+  --color-danger-bg: #fddcdc;
+  --color-danger-text: #b91c1c;
+  --color-danger-soft: #fff5f5;
+  --color-success: #16a34a;
+  --color-success-bright: #4ade80;
+  --color-success-dark: #0b3d1e;
+  --color-success-on-dark: #86efac;
+  --color-info-bg: #dce4fb;
+  --color-info-text: #1e3a8a;
+  --color-avatar: #e8b931;
+  --color-input-bg: #f1f5fc;
+
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-logo: 'Exo 2', 'Inter', sans-serif;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --shadow-card: 0 1px 2px rgba(15, 27, 45, 0.06);
+  --shadow-overlay: 0 12px 32px rgba(15, 27, 45, 0.25);
+
+  --sidebar-width: 256px;
+  --header-height: 56px;
+  --space-page: 24px;
+}
