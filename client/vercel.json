@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://vercel.app*"
+      "destination": "https://driveon-nine.vercel.app/*"
     },
     {
       "source": "/(.*)",
