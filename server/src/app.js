@@ -28,6 +28,6 @@ export function crearApp() {
   return app;
 }
 
-export default app;
+export default crearApp();
 //Configurar Express: leo el jso, rutas y manejo de errores 
 
